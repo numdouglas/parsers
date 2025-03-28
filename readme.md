@@ -1,1 +1,1 @@
-Calculator current supported opertaions +, -, /, * and ()
+Calculator current supported operations +, -, /, * and ()
