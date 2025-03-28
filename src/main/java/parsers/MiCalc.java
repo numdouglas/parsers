@@ -3,17 +3,17 @@ package parsers;
 import java.util.LinkedList;
 
 public class MiCalc {
-    private LinkedList<String> tokens;
-    private final String ordered_operations = "/*+-";
+    private final LinkedList<String> tokens;
+    private final String ordered_operations = "^*/+-";
 
     public MiCalc(String expr_to_eval) {
         expr_to_eval = "(" + expr_to_eval + ")";
         tokens = new LinkedList<>();
-        StringBuffer num_token = new StringBuffer();
+        StringBuilder num_token = new StringBuilder();
         String[] chars = expr_to_eval.split("");
         for (String xter : chars) {
-            if (xter.matches("\\(|\\)|/|\\*|\\+|-")) {
-                if (num_token.length() > 0) {
+            if (xter.matches("[()/*+-^]")) {
+                if (!num_token.isEmpty()) {
                     tokens.add(num_token.toString());
                     num_token.setLength(0);
                 }
@@ -38,8 +38,8 @@ public class MiCalc {
             }
             if (tokens.get(i).equals("(")) {
                 for (String operation : ordered_operations.split("")) {
-                    eval_operations(i, operation);
                     //System.out.println(Arrays.asList(tokens));
+                    eval_operations(i, operation);
                 }
                 remove_brackets = true;
             }
@@ -57,6 +57,7 @@ public class MiCalc {
                 int l_exp = Integer.parseInt(tokens.get(i - 1));
                 int r_exp = Integer.parseInt(tokens.get(i + 1));
                 int result = switch (possible_operator) {
+                    case "^" -> (int) Math.pow(l_exp, r_exp);
                     case "/" -> l_exp / r_exp;
                     case "*" -> l_exp * r_exp;
                     case "+" -> l_exp + r_exp;

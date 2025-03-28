@@ -1,1 +1,1 @@
-Calculator current supported operations +, -, /, * and ()
+Calculator supports all PEMDAS operations
